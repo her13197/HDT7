@@ -1,4 +1,15 @@
-
+/*Universidad del Valle de Guatemala
+ * Estructura de datos
+ * Hoja de trabajo 7
+ * Autores:
+ *      Erick Hernández 13197
+ *      Maria Isabel Fernandez 13024
+ *      Ana Bartra 13643
+ * Archivo Main
+ * Crea el arbol binario, lo llena con los datos leidos del archvio, lee el e texto y luego
+ * traduce las palabras encontradas en el diccionario
+ * 
+ */
 import java.io.*;
 import java.util.*;
 
@@ -6,17 +17,17 @@ public class Main{
 
     public static void main(String[] args) {
 
-        ArrayList<Association> todoDiccionario = new ArrayList();
-        File f = new File( "src/diccionario.txt" );
-        BufferedReader entrada;
-        File f1 = new File( "src/texto.txt" );
-        BufferedReader entrada1;
+        ArrayList<Association> Dicc = new ArrayList();
+        File archivo = new File( "src/diccionario.txt" );
+        BufferedReader Lec1;
+        File texto = new File( "src/texto.txt" );
+        BufferedReader Lec2;
         int c=0;
         String[] palabras=null;
         try {
-            entrada1 = new BufferedReader( new FileReader( f1 ) );
+            Lec2 = new BufferedReader( new FileReader( texto ) );
             String linea1;
-            linea1 = entrada1.readLine();
+            linea1 = Lec2.readLine();
             palabras= linea1.split(" ");
             c=palabras.length;
         }catch (IOException e) {
@@ -24,25 +35,25 @@ public class Main{
         }
         
         try {
-        entrada = new BufferedReader( new FileReader( f ) );
+        Lec1 = new BufferedReader( new FileReader( archivo ) );
         String linea;
-        linea = entrada.readLine();       
-            while(entrada.ready()){
-                linea = entrada.readLine();
+        linea = Lec1.readLine();       
+            while(Lec1.ready()){
+                linea = Lec1.readLine();
                 String vector[] = linea.split(",");
                 Association separado = new Association();
                 separado.addAsociation( vector[0].substring(1), vector[1].substring(0,vector[1].length()-1));
-                todoDiccionario.add(separado);
+                Dicc.add(separado);
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
         BinaryTree diccionario = new BinaryTree();
-        int co=todoDiccionario.size();
+        int co=Dicc.size();
         String[][] pe = new String[co][2];
         for (int x = 0; x <co ; x++){
-            pe[x][0]=todoDiccionario.get(x).getKey().toString();
-            pe[x][1]=todoDiccionario.get(x).getValor().toString();
+            pe[x][0]=Dicc.get(x).getKey().toString();
+            pe[x][1]=Dicc.get(x).getValor().toString();
         }
         
         //Se trabaja el arbol binario de manera "in order"

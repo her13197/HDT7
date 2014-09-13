@@ -1,3 +1,13 @@
+/*Universidad del Valle de Guatemala
+ * Estructura de datos
+ * Hoja de trabajo 7
+ * Autores:
+ *      Erick Hernández 13197
+ *      Maria Isabel Fernandez 13024
+ *      Ana Bartra 13643
+ * Archivo BinaryTree
+ * clase que modela el arbol binario
+ */
 import java.util.*;
 
 public class BinaryTree<E> {
