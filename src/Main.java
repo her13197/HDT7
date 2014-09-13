@@ -1,63 +1,73 @@
 
-
 import java.io.*;
 import java.util.*;
 
-
-public class Main {
+public class Main{
 
     public static void main(String[] args) {
 
-        ArrayList<ArrayList> dicc = new ArrayList();
-        File f = new File("src/diccionario.txt" );
-        BufferedReader lector;
+        ArrayList<Association> todoDiccionario = new ArrayList();
+        File f = new File( "src/diccionario.txt" );
+        BufferedReader entrada;
+        File f1 = new File( "src/texto.txt" );
+        BufferedReader entrada1;
+        int c=0;
+        String[] palabras=null;
         try {
-        lector = new BufferedReader(new FileReader(f));
-        String linea;
-
-        linea = lector.readLine();
-
-            while(lector.ready()){
-                linea = lector.readLine();
-
-                String vector[] = linea.split(",");
-                ArrayList separado = new ArrayList();
-                separado.add(0, vector[0].substring(1));
-                separado.add(1, vector[1].substring(0,vector[1].length()-1));
-
-                dicc.add(separado);
-
-            }
-
+            entrada1 = new BufferedReader( new FileReader( f1 ) );
+            String linea1;
+            linea1 = entrada1.readLine();
+            palabras= linea1.split(" ");
+            c=palabras.length;
         }catch (IOException e) {
-        e.printStackTrace();
+            e.printStackTrace();
         }
         
-        System.out.println(dicc.size());
-        System.out.println(dicc);
-        BinaryTree<ArrayList> a1 = new BinaryTree<>(dicc.get(7)) ;
-        BinaryTree<ArrayList> a2 = new BinaryTree<>(dicc.get(6),a1,null);
-        BinaryTree<ArrayList> a3 = new BinaryTree<>(dicc.get(5)) ;
-        BinaryTree<ArrayList> a4 = new BinaryTree<>(dicc.get(4),a2,a3); 
-        BinaryTree<ArrayList> a5 = new BinaryTree<>(dicc.get(3)) ;
-        BinaryTree<ArrayList> a6 = new BinaryTree<>(dicc.get(2)) ;
-        BinaryTree<ArrayList> a7 = new BinaryTree<>(dicc.get(1),a5,a6) ;
-        BinaryTree<ArrayList> afinal = new BinaryTree<>(dicc.get(0),a4,a7);
+        try {
+        entrada = new BufferedReader( new FileReader( f ) );
+        String linea;
+        linea = entrada.readLine();       
+            while(entrada.ready()){
+                linea = entrada.readLine();
+                String vector[] = linea.split(",");
+                Association separado = new Association();
+                separado.addAsociation( vector[0].substring(1), vector[1].substring(0,vector[1].length()-1));
+                todoDiccionario.add(separado);
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        BinaryTree diccionario = new BinaryTree();
+        int co=todoDiccionario.size();
+        String[][] pe = new String[co][2];
+        for (int x = 0; x <co ; x++){
+            pe[x][0]=todoDiccionario.get(x).getKey().toString();
+            pe[x][1]=todoDiccionario.get(x).getValor().toString();
+        }
         
-        System.out.println(afinal);   
-      
-        List<ArrayList> inList = new LinkedList<>();
-		afinal.inorder(inList);
-		System.out.println("INORDER" + inList);
-        
-        //ArrayList lista = [];
-        //inList.toArray();
-        Iterator i = inList.iterator();
-        while(i.hasNext()){
-            System.out.println("Elemento" + i.next());
-        }      
+        //Se trabaja el arbol binario de manera "in order"
+        diccionario.inOrderTraverseTree(diccionario.root);
+        String traduc="";
+        boolean t=false;
+        int p=0;
+        for (int x =0; x <c; x++){
+            for(int y =0; y<co;y++){
+                if(palabras[x].equalsIgnoreCase(pe[y][0])){
+                    p=y;
+                    t=true;
+                    break;
+                }else{
+                    t=false;
+                }
+            }
+            if(t==true){
+                traduc=traduc+pe[p][1]+" ";
+            }else{
+                traduc=traduc+palabras[x]+" ";
+            }
+         }
+         System.out.println(traduc);
     }
     
     
 }
-
